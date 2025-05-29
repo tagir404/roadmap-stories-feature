@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import StoryBar from './components/StoryBar.vue';
+import { ref } from 'vue';
+import StoryBar from '@/components/StoryBar.vue'
 
+const stories = ref<string[]>(JSON.parse(localStorage.getItem('stories') || '[]'))
 </script>
 
 <template>
   <div class="wrapper">
-    <StoryBar />
+    <StoryBar :stories />
   </div>
 </template>
 
