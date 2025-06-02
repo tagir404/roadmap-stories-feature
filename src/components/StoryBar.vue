@@ -1,56 +1,61 @@
 <script setup lang="ts">
 import AddStoryButton from '@/components/AddStoryButton.vue'
-import FancyBox from '@/components/FancyBox.vue'
 import StoryItem from '@/components/StoryItem.vue'
-import { toBase64 } from '@/utils/functions'
-import type { ComponentOptionsType, PluginsOptionsType } from '@fancyapps/ui/types/Fancybox/options';
+import { getExpiredDate, toBase64 } from '@/utils/functions'
+import type { Story } from '@/types/story'
+import { reactive } from 'vue'
+import FullScreenStory from './FullScreenStory.vue'
 
 const props = defineProps<{
-  stories: string[]
+  stories: Story[]
+}>()
+
+const emit = defineEmits<{
+  addNewStory: [e: Story]
 }>()
 
 const uploadStory = async (e: Event) => {
   const target = e.target as HTMLInputElement
   const file = target.files?.[0]!
-  const base64file = await toBase64(file)
-  localStorage.setItem(
-    'stories',
-    JSON.stringify([...props.stories, base64file])
-  )
+  const base64img = await toBase64(file)
+  const newStory = {
+    base64img,
+    expiredDate: getExpiredDate()
+  }
+
+  emit('addNewStory', newStory)
 }
 
-const fancyboxOptions: Partial<ComponentOptionsType & PluginsOptionsType> = {
-  Fullscreen: {
-    autoStart: true
-  },
-  Carousel: {
-    infinite: false,
-    Autoplay: {
-      autoStart: true,
-      timeout: 5000
-    },
-    Panzoom: {
-      click: false
-    }
-  },
-  Toolbar: {
-    enabled: false
-  }
+const fullMode = reactive({
+  activeStoryIndex: 0,
+  isOpen: false
+})
+
+const openStory = (activeStoryIndex: number) => {
+  fullMode.activeStoryIndex = activeStoryIndex
+  fullMode.isOpen = true
 }
 </script>
 
 <template>
   <div class="storybar">
     <AddStoryButton @upload-story="uploadStory" />
-    <FancyBox :options="fancyboxOptions">
-      <div class="storybar-stories">
-        <StoryItem
-          v-for="(story, i) in props.stories"
-          :key="i"
-          :story
-        />
-      </div>
-    </FancyBox>
+    <div class="storybar-stories">
+      <StoryItem
+        v-for="(story, i) in props.stories"
+        :key="i"
+        :story
+        @click="openStory(i)"
+      />
+    </div>
+    <Teleport to="body">
+      <FullScreenStory
+        v-if="fullMode.isOpen"
+        :stories="props.stories"
+        :active-story-index="fullMode.activeStoryIndex"
+        @close="fullMode.isOpen = false"
+      />
+    </Teleport>
   </div>
 </template>
 

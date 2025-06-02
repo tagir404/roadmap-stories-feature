@@ -1,13 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import StoryBar from '@/components/StoryBar.vue'
+import { ref } from 'vue'
+import type { Story } from './types/story'
 
-const stories = ref<string[]>(JSON.parse(localStorage.getItem('stories') || '[]'))
+const stories = ref<Story[]>(
+  JSON.parse(localStorage.getItem('stories') || '[]')
+)
+
+const addNewStory = (story: Story) => {
+  localStorage.setItem('stories', JSON.stringify([...stories.value, story]))
+  stories.value.push(story)
+}
 </script>
 
 <template>
   <div class="wrapper">
-    <StoryBar :stories />
+    <StoryBar :stories @add-new-story="addNewStory" />
   </div>
 </template>
 

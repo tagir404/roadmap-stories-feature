@@ -1,12 +1,14 @@
 <script setup lang="ts">
+import type { Story } from '@/types/story';
+
 const props = defineProps<{
-  story: string
+  story: Story
 }>()
 </script>
 
 <template>
   <div class="story-item">
-    <img data-fancybox="gallery" :src="props.story" alt="">
+    <img data-fancybox="gallery" :src="props.story.base64img" alt="">
   </div>
 </template>
 
