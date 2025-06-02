@@ -53,13 +53,15 @@ const openStory = (activeStoryIndex: number) => {
       />
     </div>
     <Teleport to="body">
-      <FullScreenStory
-        v-if="fullMode.isOpen && activeStory"
-        :active-story="activeStory"
-        :active-story-index="fullMode.activeStoryIndex"
-        :stories-length="stories.length"
-        @change-story-index="fullMode.activeStoryIndex = $event"
-      />
+      <Transition>
+        <FullScreenStory
+          v-if="fullMode.isOpen && activeStory"
+          :stories="props.stories"
+          :active-story-index="fullMode.activeStoryIndex"
+          @change-story-index="fullMode.activeStoryIndex = $event"
+          @slideshow-ended="fullMode.isOpen = false"
+        />
+      </Transition>
     </Teleport>
   </div>
 </template>
