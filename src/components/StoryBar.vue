@@ -49,6 +49,11 @@ const openStory = (storyIndex: number) => {
   fullMode.isOpen = true
   emit('storyViewed', storyIndex)
 }
+
+const changeStoryIndex = (storyIndex: number) => {
+  fullMode.activeStoryIndex = storyIndex
+  emit('storyViewed', storyIndex)
+}
 </script>
 
 <template>
@@ -68,7 +73,7 @@ const openStory = (storyIndex: number) => {
           v-if="fullMode.isOpen && activeStory"
           :stories="props.stories"
           :active-story-index="fullMode.activeStoryIndex"
-          @change-story-index="fullMode.activeStoryIndex = $event"
+          @change-story-index="changeStoryIndex"
           @close="fullMode.isOpen = false"
         />
       </Transition>
