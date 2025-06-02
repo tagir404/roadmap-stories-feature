@@ -3,7 +3,7 @@ import AddStoryButton from '@/components/AddStoryButton.vue'
 import StoryItem from '@/components/StoryItem.vue'
 import { getExpiredDate, toBase64 } from '@/utils/functions'
 import type { Story } from '@/types/story'
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import FullScreenStory from './FullScreenStory.vue'
 
 const props = defineProps<{
@@ -31,6 +31,10 @@ const fullMode = reactive({
   isOpen: false
 })
 
+const activeStory = computed(() =>
+  props.stories.find((_, i) => i === fullMode.activeStoryIndex)
+)
+
 const openStory = (activeStoryIndex: number) => {
   fullMode.activeStoryIndex = activeStoryIndex
   fullMode.isOpen = true
@@ -50,10 +54,11 @@ const openStory = (activeStoryIndex: number) => {
     </div>
     <Teleport to="body">
       <FullScreenStory
-        v-if="fullMode.isOpen"
-        :stories="props.stories"
+        v-if="fullMode.isOpen && activeStory"
+        :active-story="activeStory"
         :active-story-index="fullMode.activeStoryIndex"
-        @close="fullMode.isOpen = false"
+        :stories-length="stories.length"
+        @change-story-index="fullMode.activeStoryIndex = $event"
       />
     </Teleport>
   </div>
