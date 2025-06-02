@@ -53,7 +53,7 @@ const openStory = (activeStoryIndex: number) => {
       />
     </div>
     <Teleport to="body">
-      <Transition>
+      <Transition name="fade">
         <FullScreenStory
           v-if="fullMode.isOpen && activeStory"
           :stories="props.stories"
