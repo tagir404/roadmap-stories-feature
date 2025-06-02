@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Story } from '@/types/story'
+import { getFormattedDate } from '@/utils/functions';
 import type { Swiper } from 'swiper'
 
 const props = defineProps<{
@@ -65,6 +66,7 @@ const checkSwiperEnd = (swiper: Swiper) => {
           :src="story.base64img"
           alt="Story"
         />
+        <p class="expired-text">Expires tomorrow at {{ getFormattedDate(story.expiredDate) }}</p>
       </swiper-slide>
     </swiper-container>
   </div>
@@ -82,7 +84,7 @@ const checkSwiperEnd = (swiper: Swiper) => {
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
-  padding: 50px;
+  padding: 40px;
 }
 
 .progress-list {
@@ -116,10 +118,21 @@ const checkSwiperEnd = (swiper: Swiper) => {
 }
 
 .story {
-  max-height: calc(100vh - 160px);
   margin: auto 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+}
+
+.story img {
+  max-height: 60vh;
+}
+
+.expired-text {
+  color: #fff;
+  font-size: 18px;
+  margin-top: 10px;
+  text-align: right;
 }
 
 @keyframes progress {
@@ -129,6 +142,16 @@ const checkSwiperEnd = (swiper: Swiper) => {
 
   to {
     width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .wrapper {
+    padding: 20px;
+  }
+  
+  .progress-list {
+    gap: 20px;
   }
 }
 </style>
