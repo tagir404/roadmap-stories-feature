@@ -12,6 +12,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   addNewStory: [e: Story]
+  storyViewed: [index: number]
 }>()
 
 const uploadStory = async (e: Event) => {
@@ -27,7 +28,8 @@ const uploadStory = async (e: Event) => {
   const base64img = await toBase64(file)
   const newStory = {
     base64img,
-    expiredDate: getExpiredDate()
+    expiredDate: getExpiredDate(),
+    viewed: false
   }
 
   emit('addNewStory', newStory)
@@ -42,9 +44,10 @@ const activeStory = computed(() =>
   props.stories.find((_, i) => i === fullMode.activeStoryIndex)
 )
 
-const openStory = (activeStoryIndex: number) => {
-  fullMode.activeStoryIndex = activeStoryIndex
+const openStory = (storyIndex: number) => {
+  fullMode.activeStoryIndex = storyIndex
   fullMode.isOpen = true
+  emit('storyViewed', storyIndex)
 }
 </script>
 
@@ -76,10 +79,7 @@ const openStory = (activeStoryIndex: number) => {
 <style scoped>
 .storybar {
   display: flex;
-  gap: 10px;
-  padding: 20px;
-  border-radius: 10px;
-  border: 2px solid #333;
+  gap: 15px;
   width: 100%;
   max-width: 1200px;
   overflow-x: auto;
@@ -91,6 +91,6 @@ const openStory = (activeStoryIndex: number) => {
 
 .storybar-stories {
   display: flex;
-  gap: 10px;
+  gap: 15px;
 }
 </style>

@@ -89,13 +89,13 @@ const checkSwiperEnd = (swiper: Swiper) => {
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: #000;
   padding: 40px;
 }
 
 .progress-list {
   display: flex;
-  gap: 50px;
+  gap: 5px;
   width: 100%;
   height: 10px;
   margin-bottom: 50px;
@@ -105,7 +105,7 @@ const checkSwiperEnd = (swiper: Swiper) => {
 .progress-item {
   flex: 1;
   height: 100%;
-  background: rgba(0, 0, 0, 0.2);
+  background: gray;
   display: flex;
   position: relative;
   border-radius: 3px;
@@ -132,6 +132,7 @@ const checkSwiperEnd = (swiper: Swiper) => {
 
 .story img {
   max-height: 60vh;
+  object-fit: contain;
 }
 
 .expired-text {
@@ -144,7 +145,6 @@ const checkSwiperEnd = (swiper: Swiper) => {
 .close-btn {
   color: #fff;
   font-size: 36px;
-  background: rgba(0,0,0, .7);
   width: 40px;
   height: 40px;
   border-radius: 5px;
@@ -170,10 +170,6 @@ const checkSwiperEnd = (swiper: Swiper) => {
 @media (max-width: 640px) {
   .wrapper {
     padding: 20px;
-  }
-
-  .progress-list {
-    gap: 20px;
   }
 }
 </style>

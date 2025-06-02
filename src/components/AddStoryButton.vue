@@ -20,9 +20,9 @@ const emit = defineEmits<{
 .add-story-btn {
   color: #c1c1c1;
   font-size: 30px;
-  width: 50px;
-  height: 50px;
-  border: 2px solid;
+  width: 66px;
+  height: 66px;
+  border: 3px solid;
   border-radius: 50%;
   background: #fff;
   cursor: pointer;
