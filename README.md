@@ -1,6 +1,8 @@
 # Roadmap Project
 
-https://roadmap.sh/projects/stories-feature
+Project page: https://roadmap.sh/projects/stories-feature
+
+Demo page: https://tagir404.github.io/roadmap-stories-feature/
 
 ## Recommended IDE Setup
 
