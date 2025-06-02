@@ -66,7 +66,7 @@ const openStory = (activeStoryIndex: number) => {
           :stories="props.stories"
           :active-story-index="fullMode.activeStoryIndex"
           @change-story-index="fullMode.activeStoryIndex = $event"
-          @slideshow-ended="fullMode.isOpen = false"
+          @close="fullMode.isOpen = false"
         />
       </Transition>
     </Teleport>

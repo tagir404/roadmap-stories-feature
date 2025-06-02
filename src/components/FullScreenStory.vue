@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Story } from '@/types/story'
-import { getFormattedDate } from '@/utils/functions';
+import { getFormattedDate } from '@/utils/functions'
 import type { Swiper } from 'swiper'
 
 const props = defineProps<{
@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   changeStoryIndex: [index: number]
-  slideshowEnded: []
+  close: []
 }>()
 
 let finalSlideTimer: ReturnType<typeof setTimeout> | null = null
@@ -27,18 +27,22 @@ const checkSwiperEnd = (swiper: Swiper) => {
     finalSlideTimer = null
   }
 
-  const isLastSlide =
-    swiper.activeIndex === props.stories.length - 1
+  const isLastSlide = swiper.activeIndex === props.stories.length - 1
 
   if (isLastSlide) {
-    finalSlideTimer = setTimeout(() => emit('slideshowEnded'), 3000)
+    finalSlideTimer = setTimeout(() => emit('close'), 3000)
   }
 }
-
 </script>
 
 <template>
   <div class="wrapper">
+    <div
+      @click="emit('close')"
+      class="close-btn"
+    >
+      ✕
+    </div>
     <div class="progress-list">
       <div
         v-for="item in stories.length"
@@ -66,7 +70,9 @@ const checkSwiperEnd = (swiper: Swiper) => {
           :src="story.base64img"
           alt="Story"
         />
-        <p class="expired-text">Expires tomorrow at {{ getFormattedDate(story.expiredDate) }}</p>
+        <p class="expired-text">
+          Expires at {{ getFormattedDate(story.expiredDate) }}
+        </p>
       </swiper-slide>
     </swiper-container>
   </div>
@@ -135,6 +141,22 @@ const checkSwiperEnd = (swiper: Swiper) => {
   text-align: right;
 }
 
+.close-btn {
+  color: #fff;
+  font-size: 36px;
+  background: rgba(0,0,0, .7);
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
 @keyframes progress {
   from {
     width: 0%;
@@ -149,7 +171,7 @@ const checkSwiperEnd = (swiper: Swiper) => {
   .wrapper {
     padding: 20px;
   }
-  
+
   .progress-list {
     gap: 20px;
   }
